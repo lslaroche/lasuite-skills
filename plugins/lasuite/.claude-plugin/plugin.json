@@ -1,0 +1,22 @@
+{
+  "name": "lasuite",
+  "version": "4.0.0",
+  "description": "LaSuite (DINUM) PM skills: weekly OBEYA post, LaSuite design system and brand, functional QA, GitHub issues, product framing, PostHog insights.",
+  "author": {
+    "name": "Louis Laroche"
+  },
+  "keywords": [
+    "lasuite",
+    "dinum",
+    "obeya",
+    "ui-kit",
+    "design-system",
+    "brand",
+    "qa",
+    "github",
+    "issue",
+    "product-framing",
+    "posthog",
+    "insight"
+  ]
+}

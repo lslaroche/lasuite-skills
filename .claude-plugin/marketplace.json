@@ -1,0 +1,14 @@
+{
+  "name": "lasuite-skills",
+  "description": "Skills used by LaSuite (DINUM) PMs.",
+  "owner": {
+    "name": "Louis Laroche"
+  },
+  "plugins": [
+    {
+      "name": "lasuite",
+      "source": "./plugins/lasuite",
+      "description": "Weekly OBEYA post, LaSuite design system and brand, functional QA, GitHub issues, product framing, PostHog insights."
+    }
+  ]
+}
