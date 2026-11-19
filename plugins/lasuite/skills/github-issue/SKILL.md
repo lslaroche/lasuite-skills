@@ -37,10 +37,22 @@ Check access first. If something is missing, tell the PM explicitly and ask what
 5. Find the existing tracking: `posthog.capture` / `capture(` / `posthog.identify` calls in the code, events already in the product's PostHog project (PostHog MCP, read-only), and the project settings (`project-get`: autocapture, session replay). Apply the event tracking rules below.
 6. Use the product's agreed wording for every UI term, in the issue and in event names: the translation file, and any open wording PR (it wins even before it is merged). Never invent a label.
 7. If nothing seems worth tracking (refactoring, internal bug), ask the PM rather than deciding.
+8. For a bug, gather the steps to reproduce and the clues before writing (see below).
+
+## Bugs
+
+A bug issue is only useful if the developer can reproduce it or knows where to look. Steps to reproduce and clues matter as much as the acceptance criteria.
+
+- **Everything goes in Problem to solve.** No separate Steps to reproduce section: it would repeat the problem. Problem to solve describes the bug, then gives the steps and clues when we have them, and links the screenshots or videos.
+- **Steps to reproduce.** Write them from what the PM and the users who hit the bug report: numbered steps, the observed result, and what differs between users (e.g. "a reload fixes it for one user, not for the other"). Only when they add something to the description. When there are no reliable steps yet, say so in one sentence.
+- **Look for clues in every tool we have.** Existing PostHog events (error reasons, environment, first and last time seen, number of users), the code path that shows the error message (translation key, then the component and the condition), recent commits in that area (`git log`), and related issues. Ask the PM for console logs or screenshots when they exist.
+- **Put the clues in Problem to solve**, not in Implementation: the developer may not read Implementation. Keep in Implementation only the leads in the code.
+- **Privacy.** No names, emails or person ids from PostHog in the issue: write "one user in production".
+- **Event tracking is the exception.** PostHog tracks usage first, not every bug. Do not add events or properties only to understand a bug by default: weigh the pros and cons, and propose one only when the existing data cannot answer and the event will stay useful after the fix. Ask the PM before adding it.
 
 ## Event tracking rules
 
-These rules apply to every issue, so that all LaSuite products track the same way. Accounts (`suitenumerique/accounts`, `core/utils/analytics.py`) is the reference implementation.
+These rules apply to every event an issue adds, so that all LaSuite products track the same way. Accounts (`suitenumerique/accounts`, `core/utils/analytics.py`) is the reference implementation.
 
 - **Naming.** Events are `domain:action`, with the action in kebab-case: `auth:log-in`, `account:created`, `message:sent`. Properties are in snake_case. Reuse an existing event before creating one.
 - **Identity.** The distinct id is the app's user id (`str(user.pk)`), the same in the frontend and the backend. Never the email: it changes, and products that mix email and id see one person split in two. The email and the ProConnect/MonCompte `sub` go in person properties (`$set`). Flag it in Implementation if the code identifies by email today.
@@ -62,6 +74,8 @@ These rules apply to every issue, so that all LaSuite products track the same wa
 
 2 to 4 sentences, from the user's or the team's point of view: what is wrong today and why it matters. Start with "In order to..." when possible. Say if it is measurement only (nothing is blocked).
 
+For a bug, the same section then gives the steps to reproduce and the clues when we have them (see Bugs), with links to screenshots or videos. No separate section.
+
 ## Acceptance criteria
 
 (gherkin block)
@@ -76,7 +90,7 @@ And ...
 
 - `domain:action`: when it fires (`property_1`: `value_a`, `value_b`; `property_2`)
 
-PostHog events to create or change, following the event tracking rules. Group them by journey when there are more than 5. List person properties separately. No priority column: list only what ships with this issue.
+PostHog events to create or change, following the event tracking rules. Group them by journey when there are more than 5. List person properties separately. No priority column: list only what ships with this issue. Leave the section out when the issue adds no event, which is the usual case for a bug.
 
 ## Out of scope
 
